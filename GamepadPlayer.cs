@@ -9,7 +9,7 @@ namespace isaac
 {
     class GamepadPlayer : Player
     {
-        public GamepadPlayer(Texture2D texture, Vector2 position) : base(texture, position) { }
+        public GamepadPlayer(Texture2D texture, Rectangle position) : base(texture, position) { }
         public void Update(GamePadState pad)
         {
             if (pad.ThumbSticks.Left.X >= 0.75) pos.X += speed;

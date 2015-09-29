@@ -9,7 +9,7 @@ namespace isaac
 {
     class KeyboardPlayer : Player
     {
-        public KeyboardPlayer(Texture2D texture, Vector2 position) : base(texture, position) {}
+        public KeyboardPlayer(Texture2D texture, Rectangle position) : base(texture, position) {}
         public void Update(KeyboardState keys)
         {
             if (keys.IsKeyDown(Keys.W)) pos.Y -= speed;

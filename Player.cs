@@ -9,9 +9,9 @@ namespace isaac
     public abstract class Player
     {
         protected Texture2D tex;
-        protected Vector2 pos;
-        protected int speed;
-        public Player(Texture2D texture, Vector2 position)
+        public Rectangle pos;
+        public int speed;
+        public Player(Texture2D texture, Rectangle position)
         {
             tex = texture; pos = position;
             speed = 10;
