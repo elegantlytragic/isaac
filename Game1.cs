@@ -63,6 +63,7 @@ namespace isaac
             {
                 case GameState.MainMenu:
                     if (keys.IsKeyDown(Keys.P) || pad.IsButtonDown(Buttons.A)) gameState = GameState.Game;
+                    if (keys.IsKeyDown(Keys.E) || pad.IsButtonDown(Buttons.X)) gameState = GameState.Editor;
                     break;
                 case GameState.Game:
                     p1.Update(keys);
@@ -80,11 +81,15 @@ namespace isaac
             {
                 case GameState.MainMenu:
                     spriteBatch.DrawString(font, "Press P (keyboard) or A (gamepad) to play!", Vector2.Zero, Color.White);
+                    spriteBatch.DrawString(font, "Press E (keyboard) or X (gamepad) to open the level editor.", new Vector2(0, 20), Color.White);
                     break;
                 case GameState.Game:
                     p1.Draw(spriteBatch);
                     p2.Draw(spriteBatch);
                     r.Draw(spriteBatch);
+                    break;
+                case GameState.Editor:
+                    spriteBatch.DrawString(font, "Temporary editor screen", Vector2.Zero, Color.White);
                     break;
             }
             spriteBatch.End();
