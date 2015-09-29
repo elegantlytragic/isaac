@@ -11,6 +11,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace isaac
 {
+    public enum GameState
+    {
+        MainMenu,
+        Game,
+        Editor
+    }
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -20,12 +26,14 @@ namespace isaac
         GamepadPlayer p2;
         List<Player> players;
         Room r;
+        GameState gameState = GameState.MainMenu;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 640;
             graphics.PreferredBackBufferHeight = 640;
             this.IsMouseVisible = true;
+            this.Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
         }
         protected override void Initialize()
@@ -51,18 +59,34 @@ namespace isaac
             KeyboardState keys = Keyboard.GetState();
             GamePadState pad = GamePad.GetState(PlayerIndex.One);
             if (pad.Buttons.Back == ButtonState.Pressed || keys.IsKeyDown(Keys.Escape)) this.Exit();
-            p1.Update(keys);
-            p2.Update(pad);
-            r.Update(players);
+            switch (gameState)
+            {
+                case GameState.MainMenu:
+                    if (keys.IsKeyDown(Keys.P) || pad.IsButtonDown(Buttons.A)) gameState = GameState.Game;
+                    break;
+                case GameState.Game:
+                    p1.Update(keys);
+                    p2.Update(pad);
+                    r.Update(players);
+                    break;
+            }
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            p1.Draw(spriteBatch);
-            p2.Draw(spriteBatch);
-            r.Draw(spriteBatch);
+            switch (gameState)
+            {
+                case GameState.MainMenu:
+                    spriteBatch.DrawString(font, "Press P (keyboard) or A (gamepad) to play!", Vector2.Zero, Color.White);
+                    break;
+                case GameState.Game:
+                    p1.Draw(spriteBatch);
+                    p2.Draw(spriteBatch);
+                    r.Draw(spriteBatch);
+                    break;
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
