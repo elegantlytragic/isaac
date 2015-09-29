@@ -15,7 +15,8 @@ namespace isaac
     {
         MainMenu,
         Game,
-        Editor
+        Editor,
+        EditorSelect
     }
     public class Game1 : Microsoft.Xna.Framework.Game
     {
@@ -63,12 +64,15 @@ namespace isaac
             {
                 case GameState.MainMenu:
                     if (keys.IsKeyDown(Keys.P) || pad.IsButtonDown(Buttons.A)) gameState = GameState.Game;
-                    if (keys.IsKeyDown(Keys.E) || pad.IsButtonDown(Buttons.X)) gameState = GameState.Editor;
+                    if (keys.IsKeyDown(Keys.E) || pad.IsButtonDown(Buttons.X)) gameState = GameState.EditorSelect;
                     break;
                 case GameState.Game:
                     p1.Update(keys);
                     p2.Update(pad);
                     r.Update(players);
+                    break;
+                case GameState.EditorSelect:
+
                     break;
             }
             base.Update(gameTime);
