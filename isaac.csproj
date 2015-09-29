@@ -108,12 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamepadPlayer.cs" />
+    <Compile Include="InputHelper.cs" />
     <Compile Include="KeyboardPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="Textbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

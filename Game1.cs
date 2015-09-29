@@ -28,6 +28,7 @@ namespace isaac
         List<Player> players;
         Room r;
         GameState gameState = GameState.MainMenu;
+        Textbox levelName;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -46,6 +47,7 @@ namespace isaac
             players.Add(p1);
             players.Add(p2);
             r = new Room("roomtest", 10, 10, Content.Load<Texture2D>("tileset"));
+            levelName = new Textbox(font, "Level Name", Color.White, Vector2.Zero);
         }
         protected override void LoadContent()
         {
@@ -72,7 +74,8 @@ namespace isaac
                     r.Update(players);
                     break;
                 case GameState.EditorSelect:
-
+                    levelName.focused = true;
+                    levelName.Update(keys.GetPressedKeys());
                     break;
             }
             base.Update(gameTime);
@@ -94,6 +97,9 @@ namespace isaac
                     break;
                 case GameState.Editor:
                     spriteBatch.DrawString(font, "Temporary editor screen", Vector2.Zero, Color.White);
+                    break;
+                case GameState.EditorSelect:
+                    levelName.Draw(spriteBatch);
                     break;
             }
             spriteBatch.End();
