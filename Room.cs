@@ -7,11 +7,21 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace isaac
 {
+    /// <summary>
+    /// A class to hold the Room data.
+    /// </summary>
     class Room
     {
         private int[,] data, col;
         private int width, height;
         private Texture2D tileset;
+        /// <summary>
+        /// Create a new Room.
+        /// </summary>
+        /// <param name="filename">The filename of the room.</param>
+        /// <param name="w">The width of the room.</param>
+        /// <param name="h">The height of the room.</param>
+        /// <param name="t">The texture of the tileset of the room.</param>
         public Room(string filename, int w, int h, Texture2D t)
         {
             width = w; height = h; tileset = t;
@@ -36,6 +46,10 @@ namespace isaac
                                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
                                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         }
+        /// <summary>
+        /// Performs collision detection.
+        /// </summary>
+        /// <param name="players">A list of all players to detect collision.</param>
         public void Update(List<Player> players)
         {
             for (int x = 0; x < width; x++)
@@ -56,6 +70,10 @@ namespace isaac
                 }
             }
         }
+        /// <summary>
+        /// Draws the room.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch from the main Draw function.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int x = 0; x < width; x++)

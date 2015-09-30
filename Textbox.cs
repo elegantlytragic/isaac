@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 namespace isaac
 {
+    /// <summary>
+    /// A class for a text field.
+    /// </summary>
     class Textbox
     {
         public String value;
@@ -15,6 +18,13 @@ namespace isaac
         private Vector2 position;
         private SpriteFont font;
         private InputHelper help;
+        /// <summary>
+        /// Creates a new text field.
+        /// </summary>
+        /// <param name="font">The SpriteFont to draw with.</param>
+        /// <param name="defval">The default value for the field.</param>
+        /// <param name="color">What color you want the text to be.</param>
+        /// <param name="pos">The position to draw the text field.</param>
         public Textbox(SpriteFont font, String defval, Color color, Vector2 pos)
         {
             this.font = font;
@@ -24,6 +34,10 @@ namespace isaac
             help = new InputHelper();
             focused = false;
         }
+        /// <summary>
+        /// Performs the logic required to type in the text field.
+        /// </summary>
+        /// <param name="keys">All of the keys currently being pressed.</param>
         public void Update(Keys[] keys)
         {
             if (focused)
@@ -33,7 +47,7 @@ namespace isaac
                 {
                     if (help.IsNewPress(key))
                     {
-                        if (key == Keys.Back) value = value.Remove(value.Length - 1, 1);
+                        if (key == Keys.Back && value.Length >= 1) value = value.Remove(value.Length - 1, 1);
                         else if (key == Keys.Enter || key == Keys.Escape) focused = false;
                         else if (key == Keys.OemMinus) value += "-";
                         else if (key == Keys.D0) value += "0";
@@ -51,6 +65,10 @@ namespace isaac
                 }
             }
         }
+        /// <summary>
+        /// Draws the text field.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch from the main Draw function.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, value, position, color);
