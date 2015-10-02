@@ -19,7 +19,7 @@ namespace isaac
         /// <param name="height">THe variable to write the height of the level to.</param>
         public static void LoadHeader(String name, out int width, out int height)
         {
-            using (BinaryReader br = new BinaryReader(TitleContainer.OpenStream("Content/Rooms/" + name + ".dat")))
+            using (BinaryReader br = new BinaryReader(File.Open(name + ".dat", FileMode.OpenOrCreate)))
             {
                 width = br.ReadInt32();
                 height = br.ReadInt32();
@@ -39,14 +39,22 @@ namespace isaac
             {
                 for (int x = 0; x < width; x++)
                 {
-                    data[x, y] = 0;
+                    data[x, y] = 999;
                     coldata[x, y] = 0;
                 }
             }
-            using (BinaryWriter bw = new BinaryWriter(TitleContainer.OpenStream("Content/Rooms/" + levelname + ".dat")))
+            using (BinaryWriter bw = new BinaryWriter(File.Open(levelname + ".dat", FileMode.OpenOrCreate)))
             {
                 bw.Write(width);
                 bw.Write(height);
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++) bw.Write(data[x, y]);
+                }
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++) bw.Write(coldata[x, y]);
+                }
             }
         }
 
