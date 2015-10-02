@@ -24,10 +24,10 @@ namespace isaac
         /// <param name="pad">The state of the gamepad used to control this player.</param>
         public void Update(GamePadState pad)
         {
-            if (pad.ThumbSticks.Left.X >= 0.75) pos.X += speed;
-            if (pad.ThumbSticks.Left.X <= -0.75) pos.X -= speed;
-            if (pad.ThumbSticks.Left.Y >= 0.75) pos.Y -= speed;
-            if (pad.ThumbSticks.Left.Y <= -0.75) pos.Y += speed;
+            if (pad.ThumbSticks.Left.X >= 0.5) pos.X += speed;
+            if (pad.ThumbSticks.Left.X <= -0.5) pos.X -= speed;
+            if (pad.ThumbSticks.Left.Y >= 0.5) pos.Y -= speed;
+            if (pad.ThumbSticks.Left.Y <= -0.5) pos.Y += speed;
         }
     }
 }

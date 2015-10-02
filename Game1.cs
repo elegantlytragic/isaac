@@ -93,7 +93,7 @@ namespace isaac
                 case GameState.EditorSelect:
                     levelName.focused = true;
                     levelName.Update(keys.GetPressedKeys());
-                    if (keys.IsKeyDown(Keys.Enter))
+                    if (keys.IsKeyDown(Keys.Enter) || pad.IsButtonDown(Buttons.A))
                     {
                         int w, h;
                         Functions.CreateLevel(levelName.value, 10, 10);
@@ -117,33 +117,33 @@ namespace isaac
                     switch(editorState)
                     {
                         case EditorState.Tiles:
-                            if (help.IsNewPress(Keys.W)) { if (tileSelected.Y >= 1) tileSelected.Y--; }
-                            if (help.IsNewPress(Keys.S)) { if (tileSelected.Y <= editor.height - 2) tileSelected.Y++; }
-                            if (help.IsNewPress(Keys.D)) { if (tileSelected.X <= editor.width - 2) tileSelected.X++; }
-                            if (help.IsNewPress(Keys.A)) { if (tileSelected.X >= 1) tileSelected.X--; }
-                            if (help.IsNewPress(Keys.Space)) editor.data[(int)tileSelected.Y, (int)tileSelected.X] = editSelected;
-                            if (help.IsNewPress(Keys.E)) editorState = EditorState.Grid;
-                            if (help.IsNewPress(Keys.C)) editorState = EditorState.Collision;
+                            if (help.IsNewPress(Keys.W) || help.IsNewPress(Buttons.DPadUp)) { if (tileSelected.Y >= 1) tileSelected.Y--; }
+                            if (help.IsNewPress(Keys.S) || help.IsNewPress(Buttons.DPadDown)) { if (tileSelected.Y <= editor.height - 2) tileSelected.Y++; }
+                            if (help.IsNewPress(Keys.D) || help.IsNewPress(Buttons.DPadRight)) { if (tileSelected.X <= editor.width - 2) tileSelected.X++; }
+                            if (help.IsNewPress(Keys.A) || help.IsNewPress(Buttons.DPadLeft)) { if (tileSelected.X >= 1) tileSelected.X--; }
+                            if (help.IsNewPress(Keys.Space) || help.IsNewPress(Buttons.A)) editor.data[(int)tileSelected.Y, (int)tileSelected.X] = editSelected;
+                            if (help.IsNewPress(Keys.E) || help.IsNewPress(Buttons.X)) editorState = EditorState.Grid;
+                            if (help.IsNewPress(Keys.C) || help.IsNewPress(Buttons.Y)) editorState = EditorState.Collision;
                             break;
                         case EditorState.Grid:
-                            if (help.IsNewPress(Keys.W)) { if (editSelected >= 6) editSelected -= 6; }
-                            if (help.IsNewPress(Keys.S)) { if (editSelected <= 41) editSelected += 6; }
-                            if (help.IsNewPress(Keys.A)) { if (editSelected > 1) editSelected--; }
-                            if (help.IsNewPress(Keys.D)) { if (editSelected < 47) editSelected++; }
-                            if (help.IsNewPress(Keys.E)) editorState = EditorState.Tiles;
-                            if (help.IsNewPress(Keys.C)) editorState = EditorState.Collision;
+                            if (help.IsNewPress(Keys.W) || help.IsNewPress(Buttons.DPadUp)) { if (editSelected >= 6) editSelected -= 6; }
+                            if (help.IsNewPress(Keys.S) || help.IsNewPress(Buttons.DPadDown)) { if (editSelected <= 41) editSelected += 6; }
+                            if (help.IsNewPress(Keys.A) || help.IsNewPress(Buttons.DPadLeft)) { if (editSelected > 1) editSelected--; }
+                            if (help.IsNewPress(Keys.D) || help.IsNewPress(Buttons.DPadRight)) { if (editSelected < 47) editSelected++; }
+                            if (help.IsNewPress(Keys.E) || help.IsNewPress(Buttons.X)) editorState = EditorState.Tiles;
+                            if (help.IsNewPress(Keys.C) || help.IsNewPress(Buttons.Y)) editorState = EditorState.Collision;
                             break;
                         case EditorState.Collision:
-                            if (help.IsNewPress(Keys.W)) { if (tileSelected.Y >= 1) tileSelected.Y--; }
-                            if (help.IsNewPress(Keys.S)) { if (tileSelected.Y <= editor.height - 2) tileSelected.Y++; }
-                            if (help.IsNewPress(Keys.D)) { if (tileSelected.X <= editor.width - 2) tileSelected.X++; }
-                            if (help.IsNewPress(Keys.A)) { if (tileSelected.X >= 1) tileSelected.X--; }
-                            if (help.IsNewPress(Keys.D0)) editor.col[(int)tileSelected.X, (int)tileSelected.Y] = 0;
-                            if (help.IsNewPress(Keys.D1)) editor.col[(int)tileSelected.X, (int)tileSelected.Y] = 1;
-                            if (help.IsNewPress(Keys.E)) editorState = EditorState.Tiles;
+                            if (help.IsNewPress(Keys.W) || help.IsNewPress(Buttons.DPadUp)) { if (tileSelected.Y >= 1) tileSelected.Y--; }
+                            if (help.IsNewPress(Keys.S) || help.IsNewPress(Buttons.DPadDown)) { if (tileSelected.Y <= editor.height - 2) tileSelected.Y++; }
+                            if (help.IsNewPress(Keys.D) || help.IsNewPress(Buttons.DPadRight)) { if (tileSelected.X <= editor.width - 2) tileSelected.X++; }
+                            if (help.IsNewPress(Keys.A) || help.IsNewPress(Buttons.DPadLeft)) { if (tileSelected.X >= 1) tileSelected.X--; }
+                            if (help.IsNewPress(Keys.D0) || help.IsNewPress(Buttons.B)) editor.col[(int)tileSelected.X, (int)tileSelected.Y] = 0;
+                            if (help.IsNewPress(Keys.D1) || help.IsNewPress(Buttons.A)) editor.col[(int)tileSelected.X, (int)tileSelected.Y] = 1;
+                            if (help.IsNewPress(Keys.E) || help.IsNewPress(Buttons.X)) editorState = EditorState.Tiles;
                             break;
                     }
-                    if (help.IsNewPress(Keys.F1))
+                    if (help.IsNewPress(Keys.F1) || help.IsNewPress(Buttons.Start))
                     {
                         editor.Save();
                         gameState = GameState.MainMenu;

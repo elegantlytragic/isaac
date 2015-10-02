@@ -56,7 +56,7 @@ namespace isaac
                     foreach (Player player in players)
                     {
                         Rectangle cur = new Rectangle(x * 64, y * 64, 64, 64);
-                        if (col[y, x] == 1)
+                        if (col[x, y] == 1)
                         {
                             if (cur.Contains(player.pos.Right, player.pos.Y + player.pos.Height / 2)) player.pos.X -= player.speed;
                             if (cur.Contains(player.pos.Left, player.pos.Y + player.pos.Height / 2)) player.pos.X += player.speed;
