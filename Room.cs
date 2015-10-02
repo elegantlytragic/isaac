@@ -7,35 +7,46 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace isaac
 {
+    /// <summary>
+    /// A class to hold the Room data.
+    /// </summary>
     class Room
     {
-        private int[,] data, col;
-        private int width, height;
+        public int[,] data, col;
+        public int width, height;
         private Texture2D tileset;
+        public string name;
+        /// <summary>
+        /// Create a new Room.
+        /// </summary>
+        /// <param name="filename">The filename of the room.</param>
+        /// <param name="w">The width of the room.</param>
+        /// <param name="h">The height of the room.</param>
+        /// <param name="t">The texture of the tileset of the room.</param>
         public Room(string filename, int w, int h, Texture2D t)
         {
-            width = w; height = h; tileset = t;
-            data = new int[10, 10] {{ 24,  1,  2,  3,  4,  5,  0,  1,  2, 39},
-                                    { 17,999,999,999,999,999,999,999,999, 22},
-                                    { 16,999,999,999,999,999,999,999,999, 23},
-                                    { 15,999,999,999,999,999,999,999,999, 18},
-                                    { 14,999,999,999,999,999,999,999,999, 19},
-                                    { 13,999,999,999,999,999,999,999,999, 20},
-                                    { 12,999,999,999,999,999,999,999,999, 21},
-                                    { 17,999,999,999,999,999,999,999,999, 22},
-                                    { 16,999,999,999,999,999,999,999,999, 23},
-                                    { 33,  8,  7,  6, 11, 10,  9,  8,  7, 42}};
-            col = new int[10, 10] {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                                   {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+            tileset = t;
+            name = filename;
+            using (BinaryReader br = new BinaryReader(File.Open(filename + ".dat", FileMode.Open)))
+            {
+                width = br.ReadInt32();
+                height = br.ReadInt32();
+                data = new int[width, height];
+                col = new int[width, height];
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++) data[x, y] = br.ReadInt32();
+                }
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++) col[x, y] = br.ReadInt32();
+                }
+            }
         }
+        /// <summary>
+        /// Performs collision detection.
+        /// </summary>
+        /// <param name="players">A list of all players to detect collision.</param>
         public void Update(List<Player> players)
         {
             for (int x = 0; x < width; x++)
@@ -56,11 +67,51 @@ namespace isaac
                 }
             }
         }
+        /// <summary>
+        /// Draws the room.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch from the main Draw function.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++) if (data[y, x] != 999) spriteBatch.Draw(tileset, new Rectangle(x * 64, y * 64, 64, 64), new Rectangle((data[y, x] % 6) * 32, (data[y, x] / 6) * 32, 32, 32), Color.White);
+            }
+        }
+        /// <summary>
+        /// Draws the collision data of the level.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch from the main Draw function.</param>
+        /// <param name="notsolid">The texture to draw for a non-solid tile.</param>
+        /// <param name="solid">The texture to draw for a solid tile.</param>
+        public void DrawCollision(SpriteBatch spriteBatch, Texture2D notsolid, Texture2D solid)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (col[x, y] == 1) spriteBatch.Draw(solid, new Rectangle(x * 64, y * 64, 64, 64), Color.White); //Draw solid tile
+                    if (col[x, y] == 0) spriteBatch.Draw(notsolid, new Rectangle(x * 64, y * 64, 64, 64), Color.White); //Draw non-solid tile
+                }
+            }
+        }
+        /// <summary>
+        /// Saves any changes to the Room made in the editor.
+        /// </summary>
+        public void Save()
+        {
+            using (BinaryWriter bw = new BinaryWriter(File.Open(name + ".dat", FileMode.Open)))
+            {
+                bw.Write(width);
+                bw.Write(height);
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++) bw.Write(data[x, y]);
+                }
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++) bw.Write(col[x, y]);
+                }
             }
         }
     }
